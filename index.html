@@ -1,264 +1,653 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ZERO GAMER</title>
-    <link href="https://fonts.googleapis.com/css2?family=Cairo&display=swap" rel="stylesheet">
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Cairo', sans-serif;
-        }
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>ZERO GAMER | يوتيوبر محترف</title>
+<link href="https://fonts.googleapis.com/css2?family=Cairo&display=swap" rel="stylesheet" />
+<style>
+    /* Reset */
+    * {
+        margin: 0; padding: 0; box-sizing: border-box;
+        font-family: 'Cairo', sans-serif;
+        user-select: none;
+    }
+    html, body {
+        height: 100%;
+        background: linear-gradient(135deg, #0f0f0f 0%, #1a1a1a 100%);
+        color: #f0c419;
+        overflow-x: hidden;
+        direction: rtl;
+    }
 
-        body, html {
-            height: 100%;
-            overflow: hidden;
-            direction: rtl;
-        }
+    /* Loading Screen */
+    #loading {
+        position: fixed; inset: 0;
+        background: #000;
+        display: flex; flex-direction: column; justify-content: center; align-items: center;
+        z-index: 9999;
+        animation: fadeOutLoading 1s ease forwards;
+        animation-delay: 7s;
+    }
 
-        .loading-screen {
-            position: fixed;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
-            background-color: black;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-direction: column;
-            z-index: 9999;
-            color: white;
-            font-size: 2em;
-            animation: fadeOut 1s ease 6s forwards;
-        }
+    #loading .logo-container {
+        display: flex;
+        gap: 50px;
+        animation: pulseLogos 6s linear forwards;
+    }
+    #loading .logo-container img {
+        width: 120px;
+        opacity: 0.1;
+        filter: drop-shadow(0 0 8px gold);
+        animation-fill-mode: forwards;
+    }
+    #loading .logo-container img.active {
+        opacity: 1;
+        animation: glow 1.5s infinite alternate;
+        filter: drop-shadow(0 0 20px gold);
+    }
 
-        .loading-logo {
+    /* Animations for loading */
+    @keyframes fadeOutLoading {
+        to {
             opacity: 0;
-            transition: opacity 1s;
+            visibility: hidden;
+            pointer-events: none;
         }
+    }
 
-        .loading-logo.show {
-            opacity: 1;
+    @keyframes pulseLogos {
+        0% { filter: none; }
+        0%, 33% { }
+        0%, 33%, 66% { }
+    }
+
+    @keyframes glow {
+        from { filter: drop-shadow(0 0 15px #ffd700); }
+        to { filter: drop-shadow(0 0 30px #ffea00); }
+    }
+
+    /* Main Page */
+    #main {
+        display: none;
+        min-height: 100vh;
+        padding: 80px 30px 30px;
+        text-align: center;
+        position: relative;
+        overflow: hidden;
+        background: radial-gradient(circle at center, #111 0%, #000 100%);
+    }
+
+    #main h1 {
+        font-size: 4rem;
+        text-shadow:
+            0 0 10px #ffd700,
+            0 0 20px #ffb800,
+            0 0 30px #ffa500,
+            0 0 40px #ff8c00;
+        margin-bottom: 1.2rem;
+        letter-spacing: 0.15em;
+        user-select: text;
+    }
+
+    /* Boxes Container */
+    .boxes {
+        display: flex;
+        justify-content: center;
+        gap: 50px;
+        margin-bottom: 40px;
+        flex-wrap: wrap;
+    }
+    .box {
+        background: #222;
+        border: 2px solid #f0c419;
+        border-radius: 30px;
+        width: 210px;
+        height: 210px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-weight: 700;
+        font-size: 1.3rem;
+        cursor: pointer;
+        box-shadow:
+            0 0 10px #f0c419,
+            inset 0 0 10px #f0c419;
+        transition:
+            transform 0.35s ease,
+            box-shadow 0.35s ease,
+            background-color 0.35s ease;
+        user-select: none;
+        position: relative;
+        overflow: hidden;
+    }
+    .box:hover {
+        background: linear-gradient(135deg, #f0c419, #ffa500);
+        color: #000;
+        transform: scale(1.15) rotate(3deg);
+        box-shadow:
+            0 0 30px #ffea00,
+            inset 0 0 25px #ffea00;
+        z-index: 2;
+    }
+    .box img {
+        width: 70px;
+        margin-bottom: 15px;
+        filter: drop-shadow(0 0 6px #f0c419);
+        transition: filter 0.35s ease;
+    }
+    .box:hover img {
+        filter: drop-shadow(0 0 15px #ffea00);
+    }
+
+    /* Discord Link */
+    .discord-link {
+        padding: 15px 40px;
+        font-size: 1.3rem;
+        font-weight: 700;
+        background: transparent;
+        border: 3px solid #f0c419;
+        color: #f0c419;
+        border-radius: 40px;
+        text-decoration: none;
+        display: inline-block;
+        user-select: none;
+        box-shadow:
+            0 0 20px #f0c419,
+            inset 0 0 15px #ffea00;
+        transition:
+            background-color 0.3s ease,
+            color 0.3s ease,
+            box-shadow 0.3s ease;
+    }
+    .discord-link:hover {
+        background-color: #f0c419;
+        color: #000;
+        box-shadow:
+            0 0 50px #ffea00,
+            inset 0 0 25px #ffea00;
+    }
+
+    /* Settings Button */
+    .settings-btn {
+        position: fixed;
+        top: 20px;
+        left: 20px;
+        background: #f0c419;
+        color: #111;
+        font-size: 1.1rem;
+        padding: 12px 24px;
+        border: none;
+        border-radius: 40px;
+        cursor: pointer;
+        box-shadow: 0 0 20px #ffea00;
+        user-select: none;
+        transition: background-color 0.3s ease;
+        z-index: 11000;
+        font-weight: 700;
+    }
+    .settings-btn:hover {
+        background-color: #ffea00;
+        box-shadow: 0 0 40px #fff85e;
+    }
+
+    /* Settings Menu */
+    .settings-menu {
+        position: fixed;
+        top: 70px;
+        left: 20px;
+        width: 260px;
+        background: #111;
+        border-radius: 20px;
+        padding: 20px 20px;
+        box-shadow:
+            0 0 20px #f0c419,
+            inset 0 0 15px #f0c419;
+        color: #f0c419;
+        user-select: none;
+        z-index: 11000;
+        transform-origin: top left;
+        transform: scale(0);
+        opacity: 0;
+        transition: transform 0.3s ease, opacity 0.3s ease;
+        pointer-events: none;
+    }
+    .settings-menu.active {
+        transform: scale(1);
+        opacity: 1;
+        pointer-events: auto;
+    }
+    .settings-menu h3 {
+        font-size: 1.5rem;
+        margin-bottom: 18px;
+        border-bottom: 2px solid #f0c419;
+        padding-bottom: 8px;
+    }
+    .settings-menu ul {
+        list-style: none;
+    }
+    .settings-menu ul li {
+        font-size: 1.1rem;
+        padding: 10px 12px;
+        margin-bottom: 12px;
+        border-radius: 12px;
+        background: #222;
+        cursor: pointer;
+        transition: background-color 0.3s ease, color 0.3s ease;
+        user-select: none;
+    }
+    .settings-menu ul li:hover {
+        background: #f0c419;
+        color: #000;
+        font-weight: 700;
+    }
+
+    /* Modal Base */
+    .modal {
+        position: fixed;
+        inset: 0;
+        background: rgba(0,0,0,0.85);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 12000;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.4s ease;
+        user-select: none;
+    }
+    .modal.active {
+        opacity: 1;
+        pointer-events: auto;
+    }
+
+    /* Rules Modal */
+    #rules-modal .modal-content {
+        background: #111;
+        border-radius: 25px;
+        max-width: 480px;
+        padding: 30px 40px;
+        color: #f0c419;
+        box-shadow: 0 0 40px #ffde59;
+        user-select: text;
+        text-align: right;
+        direction: rtl;
+        font-size: 1.1rem;
+        max-height: 80vh;
+        overflow-y: auto;
+    }
+    #rules-modal h2 {
+        margin-bottom: 20px;
+        font-size: 2.4rem;
+        border-bottom: 3px solid #f0c419;
+        padding-bottom: 12px;
+        font-weight: 900;
+        letter-spacing: 0.15em;
+        user-select: text;
+    }
+    #rules-modal ul {
+        list-style-type: decimal-leading-zero;
+        margin-left: 20px;
+        padding-left: 10px;
+        user-select: text;
+    }
+    #rules-modal ul li {
+        margin-bottom: 16px;
+        line-height: 1.5;
+        font-weight: 600;
+    }
+    #rules-modal button.close-btn {
+        background: #f0c419;
+        border: none;
+        padding: 12px 28px;
+        border-radius: 40px;
+        font-weight: 700;
+        color: #111;
+        cursor: pointer;
+        margin-top: 20px;
+        transition: background-color 0.3s ease;
+        display: block;
+        margin-left: auto;
+        user-select: none;
+    }
+    #rules-modal button.close-btn:hover {
+        background-color: #ffea00;
+    }
+
+    /* Share Modal */
+    #share-modal .modal-content {
+        background: #111;
+        border-radius: 25px;
+        max-width: 400px;
+        padding: 30px 35px;
+        color: #f0c419;
+        box-shadow: 0 0 40px #ffde59;
+        text-align: center;
+        user-select: none;
+    }
+    #share-modal h2 {
+        font-size: 2rem;
+        margin-bottom: 15px;
+        font-weight: 800;
+        letter-spacing: 0.1em;
+    }
+    #share-modal p {
+        font-size: 1.1rem;
+        margin-bottom: 20px;
+        font-weight: 600;
+    }
+    #share-modal .share-buttons {
+        display: flex;
+        justify-content: space-around;
+        gap: 15px;
+    }
+    #share-modal .share-buttons button {
+        background: #f0c419;
+        border: none;
+        border-radius: 40px;
+        padding: 12px 25px;
+        font-weight: 700;
+        font-size: 1.1rem;
+        color: #111;
+        cursor: pointer;
+        box-shadow: 0 0 15px #ffea00;
+        transition: background-color 0.3s ease;
+        user-select: none;
+        flex-grow: 1;
+    }
+    #share-modal .share-buttons button:hover {
+        background-color: #ffea00;
+        box-shadow: 0 0 30px #fff85e;
+    }
+    #share-modal .close-btn {
+        margin-top: 25px;
+        background: #222;
+        color: #f0c419;
+        font-weight: 600;
+        border-radius: 40px;
+        padding: 10px 28px;
+        cursor: pointer;
+        user-select: none;
+        border: 2px solid #f0c419;
+        transition: background-color 0.3s ease, color 0.3s ease;
+        display: inline-block;
+    }
+    #share-modal .close-btn:hover {
+        background-color: #f0c419;
+        color: #000;
+    }
+
+    /* Floating stars bubbles */
+    .bubble {
+        position: fixed;
+        bottom: -50px;
+        font-size: 22px;
+        color: #f0c419;
+        opacity: 0.75;
+        animation: floatUp 10s linear infinite;
+        user-select: none;
+        pointer-events: none;
+        text-shadow:
+            0 0 8px #ffd700,
+            0 0 20px #ffd700;
+        filter: drop-shadow(0 0 6px #ffdb00);
+        z-index: 999;
+    }
+    @keyframes floatUp {
+        0% {
+            transform: translateY(0) scale(1);
+            opacity: 0.7;
         }
-
-        .main-page {
-            display: none;
-            background: linear-gradient(to bottom, #000, #444);
-            height: 100vh;
-            color: gold;
-            text-align: center;
-            padding-top: 80px;
-            position: relative;
-            overflow: hidden;
+        100% {
+            transform: translateY(-120vh) scale(0.4);
+            opacity: 0;
         }
+    }
 
-        h1 {
-            font-size: 50px;
-            font-family: 'Cairo', sans-serif;
-            text-shadow: 0 0 10px gold, 0 0 20px orange;
-        }
-
+    /* Responsive */
+    @media (max-width: 700px) {
         .boxes {
-            display: flex;
-            justify-content: center;
-            gap: 40px;
-            margin-top: 60px;
+            flex-direction: column;
+            gap: 30px;
+            margin-bottom: 30px;
         }
-
         .box {
-            width: 200px;
-            height: 200px;
-            background-color: #111;
-            color: white;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 20px;
-            border: 2px solid gold;
-            border-radius: 20px;
-            transition: 0.4s;
-            cursor: pointer;
+            width: 90vw;
+            height: 170px;
+            font-size: 1.2rem;
         }
-
-        .box:hover {
-            transform: scale(1.1) rotate(2deg);
-            box-shadow: 0 0 20px gold;
+        #main h1 {
+            font-size: 3.5rem;
         }
-
-        .discord-link {
-            margin-top: 30px;
-            display: inline-block;
-            padding: 12px 25px;
-            background-color: #222;
-            color: gold;
-            border: 2px solid gold;
-            border-radius: 12px;
-            font-size: 18px;
-            text-decoration: none;
-            transition: 0.4s;
+        .settings-menu {
+            width: 90vw;
+            left: 5vw;
+            top: 70px;
         }
-
-        .discord-link:hover {
-            background-color: gold;
-            color: #000;
-            box-shadow: 0 0 10px gold;
+        #rules-modal .modal-content {
+            width: 90vw;
+            max-height: 70vh;
+            padding: 20px 20px;
         }
-
-        .rules-modal {
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background: #222;
-            padding: 30px;
-            border: 2px solid gold;
-            border-radius: 20px;
-            width: 400px;
-            max-height: 80vh;
-            overflow-y: auto;
-            z-index: 10000;
-            display: none;
+        #share-modal .modal-content {
+            width: 90vw;
+            padding: 20px 20px;
         }
-
-        .rules-modal h2 {
-            margin-bottom: 20px;
-            color: gold;
-        }
-
-        .rules-modal ul {
-            list-style: none;
-            padding: 0;
-            color: white;
-            font-size: 16px;
-            text-align: right;
-        }
-
-        .rules-modal ul li {
-            margin-bottom: 10px;
-        }
-
-        .close-btn {
-            background: crimson;
-            color: white;
-            border: none;
-            padding: 5px 15px;
-            border-radius: 10px;
-            cursor: pointer;
-            margin-top: 10px;
-        }
-
-        @keyframes fadeOut {
-            to {
-                opacity: 0;
-                visibility: hidden;
-            }
-        }
-
-        .bubble {
-            position: absolute;
-            bottom: -50px;
-            width: 20px;
-            height: 20px;
-            background: red;
-            border-radius: 50%;
-            opacity: 0.6;
-            animation: floatUp 8s linear infinite;
-        }
-
-        @keyframes floatUp {
-            0% {
-                transform: translateY(0) scale(1);
-                opacity: 0.6;
-            }
-            100% {
-                transform: translateY(-120vh) scale(0.5);
-                opacity: 0;
-            }
-        }
-    </style>
+    }
+</style>
 </head>
 <body>
-    <div class="loading-screen" id="loading">
-        <div class="loading-logo" id="logo-discord">🔵 Discord</div>
-        <div class="loading-logo" id="logo-youtube">🔴 YouTube</div>
-    </div>
 
-    <div class="main-page" id="main">
-        <h1>ZERO GAMER</h1>
-        <div class="boxes">
-            <div class="box" onclick="showRules()">الديسكورد</div>
-            <div class="box" onclick="goToYoutube()">اليوتيوب</div>
+    <!-- شاشة التحميل -->
+    <div id="loading">
+        <div class="logo-container">
+            <img id="logo-discord" src="https://www.svgrepo.com/show/353655/discord-icon.svg" alt="Discord" />
+            <img id="logo-youtube" src="https://upload.wikimedia.org/wikipedia/commons/b/b8/YouTube_Logo_2017.svg" alt="YouTube" />
         </div>
-        <a href="https://discord.gg/2Krts55Z" target="_blank" class="discord-link">دخول إلى السيرفر</a>
-
-        <script>
-            for (let i = 0; i < 20; i++) {
-                const bubble = document.createElement('div');
-                bubble.classList.add('bubble');
-                bubble.style.left = Math.random() * 100 + 'vw';
-                bubble.style.animationDelay = Math.random() * 8 + 's';
-                bubble.style.width = bubble.style.height = (Math.random() * 20 + 10) + 'px';
-                document.getElementById('main').appendChild(bubble);
-            }
-        </script>
     </div>
 
-    <div class="rules-modal" id="rulesModal">
-        <h2>قوانين الديسكورد</h2>
-        <ul>
-            <li>1. احترام الجميع.</li>
-            <li>2. ممنوع السب.</li>
-            <li>3. لا ترسل سبام.</li>
-            <li>4. لا تنشر روابط خبيثة.</li>
-            <li>5. لا تستفز أحد.</li>
-            <li>6. اتبع أوامر الإدارة.</li>
-            <li>7. لا تسوّق دون إذن.</li>
-            <li>8. تحدث بلغة مفهومة.</li>
-            <li>9. ممنوع النقاش الديني.</li>
-            <li>10. لا تزعج الأعضاء.</li>
-            <li>11. احترم الخصوصية.</li>
-            <li>12. لا تنتحل شخصية.</li>
-            <li>13. لا تشارك معلومات حساسة.</li>
-            <li>14. لا تستخدم بوتات بدون إذن.</li>
-            <li>15. لا ترسل محتوى غير لائق.</li>
-            <li>16. لا تفتح التذاكر دون سبب.</li>
-            <li>17. لا تدخل الفويس بدون إذن.</li>
-            <li>18. كل مخالفة لها عقوبة.</li>
-            <li>19. لا تطلب رتبة.</li>
-            <li>20. تذكر أن الإدارة لها القرار الأخير.</li>
-        </ul>
-        <button class="close-btn" onclick="closeRules()">إغلاق</button>
+    <!-- الصفحة الرئيسية -->
+    <div id="main">
+        <button class="settings-btn" id="settingsBtn" title="الإعدادات">⚙️ الإعدادات</button>
+        <div class="settings-menu" id="settingsMenu">
+            <h3>قائمة الإعدادات</h3>
+            <ul>
+                <li data-action="subscribe">الاشتراك في القناة</li>
+                <li data-action="watch">مشاهدة الفيديوهات</li>
+                <li data-action="notifications">تفعيل التنبيهات</li>
+                <li data-action="visit">زيارة صفحتي على يوتيوب</li>
+                <li data-action="share">مشاركة القناة</li>
+                <li data-action="support">الدعم الفني</li>
+            </ul>
+        </div>
+
+        <h1>ZERO GAMER</h1>
+
+        <div class="boxes">
+            <div class="box" id="discordBtn" title="الديسكورد">
+                <img src="https://www.svgrepo.com/show/353655/discord-icon.svg" alt="Discord" />
+                الديسكورد
+            </div>
+            <div class="box" id="youtubeBtn" title="اليوتيوب">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/b/b8/YouTube_Logo_2017.svg" alt="YouTube" />
+                اليوتيوب
+            </div>
+        </div>
+
+        <a href="https://discord.gg/2Krts55Z" target="_blank" class="discord-link" title="دخول إلى سيرفر الديسكورد">
+            دخول إلى السيرفر
+        </a>
     </div>
 
-    <script>
-        setTimeout(() => {
-            document.getElementById('logo-discord').classList.add('show');
-        }, 0);
+    <!-- مودال القوانين -->
+    <div class="modal" id="rules-modal">
+        <div class="modal-content">
+            <h2>قوانين السيرفر</h2>
+            <ul>
+                <li>احترام جميع الأعضاء وعدم التجريح أو الإساءة لأي شخص مهما كانت الظروف.</li>
+                <li>عدم نشر روابط غير مصرح بها أو إعلانات عشوائية في القنوات.</li>
+                <li>الامتناع عن استخدام أي برامج غش أو استغلال الأخطاء داخل الألعاب.</li>
+                <li>عدم الإزعاج أو السبام في القنوات أو الدردشات الخاصة.</li>
+                <li>الالتزام بموضوع القناة وعدم الخروج عنه أو التسبب في إرباك المشاهدين.</li>
+                <li>عدم نشر أي محتوى مسيء أو مخالف للأخلاق العامة.</li>
+                <li>الامتثال لتعليمات المشرفين والإدارة في جميع الأوقات.</li>
+                <li>حماية خصوصيتك وعدم مشاركة معلومات شخصية خاصة بك أو بالآخرين.</li>
+                <li>اللغة المستخدمة يجب أن تكون محترمة وخالية من الألفاظ النابية.</li>
+                <li>عدم التحدث في مواضيع سياسية أو دينية تثير الجدل داخل القناة أو السيرفر.</li>
+                <li>المساهمة في خلق بيئة إيجابية تساعد الجميع على الاستمتاع بالمحتوى.</li>
+                <li>الإبلاغ عن أي سلوك مريب أو مخالف للقوانين عبر القنوات المخصصة لذلك.</li>
+                <li>عدم التنمر أو السخرية من أي عضو أو ضيف داخل المجتمع.</li>
+                <li>المحافظة على نظافة الدردشة وعدم إرسال صور أو ملفات غير مناسبة.</li>
+                <li>التزام الهدوء وعدم رفع الصوت أو استخدام مكبرات صوت مزعجة أثناء البث المباشر.</li>
+            </ul>
+            <button class="close-btn" id="closeRulesBtn">إغلاق</button>
+        </div>
+    </div>
 
-        setTimeout(() => {
-            document.getElementById('logo-discord').classList.remove('show');
-            document.getElementById('logo-youtube').classList.add('show');
-        }, 3000);
+    <!-- مودال المشاركة -->
+    <div class="modal" id="share-modal">
+        <div class="modal-content">
+            <h2>شارك القناة مع أصدقائك</h2>
+            <p>اختر إحدى الطرق التالية لمشاركة القناة بسهولة</p>
+            <div class="share-buttons">
+                <button id="shareWhatsapp">واتساب</button>
+                <button id="shareTelegram">تيليجرام</button>
+                <button id="shareFacebook">فيسبوك</button>
+            </div>
+            <button class="close-btn" id="closeShareBtn">إغلاق</button>
+        </div>
+    </div>
 
+    <!-- فقاعات النجوم -->
+    <div id="bubbles-container"></div>
+
+<script>
+    // أزرار اللوجو في شاشة التحميل مع التبديل بينهم
+    const discordLogo = document.getElementById('logo-discord');
+    const youtubeLogo = document.getElementById('logo-youtube');
+    let activeIndex = 0;
+    const logos = [discordLogo, youtubeLogo];
+
+    function cycleLogos() {
+        logos.forEach((logo, i) => {
+            logo.classList.toggle('active', i === activeIndex);
+        });
+        activeIndex = (activeIndex + 1) % logos.length;
+    }
+    cycleLogos();
+    setInterval(cycleLogos, 3000);
+
+    // إخفاء شاشة التحميل بعد 7 ثواني وإظهار المحتوى الرئيسي
+    window.addEventListener('load', () => {
         setTimeout(() => {
             document.getElementById('loading').style.display = 'none';
             document.getElementById('main').style.display = 'block';
-        }, 6000);
+        }, 7000);
+    });
 
-        function showRules() {
-            document.getElementById('rulesModal').style.display = 'block';
-        }
+    // إعدادات القائمة المنسدلة
+    const settingsBtn = document.getElementById('settingsBtn');
+    const settingsMenu = document.getElementById('settingsMenu');
 
-        function closeRules() {
-            document.getElementById('rulesModal').style.display = 'none';
-        }
+    settingsBtn.addEventListener('click', () => {
+        settingsMenu.classList.toggle('active');
+    });
 
-        function goToYoutube() {
-            window.open("https://youtu.be/CAgFYX3XLBg?si=4ucOwOEfA08snff4", "_blank");
+    // أحداث أزرار القائمة
+    settingsMenu.querySelectorAll('li').forEach(item => {
+        item.addEventListener('click', () => {
+            const action = item.dataset.action;
+            if (action === 'subscribe') {
+                alert('يرجى الاشتراك في القناة أولاً.');
+            } else if (action === 'watch') {
+                alert('شكرًا لمشاهدة الفيديوهات!');
+            } else if (action === 'notifications') {
+                alert('تم تفعيل التنبيهات!');
+            } else if (action === 'visit') {
+                window.open('https://www.youtube.com/c/ZeroGamerYT', '_blank');
+            } else if (action === 'share') {
+                openModal('share-modal');
+            } else if (action === 'support') {
+                alert('للدعم الفني تواصل معنا عبر الديسكورد.');
+            }
+            settingsMenu.classList.remove('active');
+        });
+    });
+
+    // أزرار الصناديق
+    document.getElementById('discordBtn').addEventListener('click', () => {
+        window.open('https://discord.gg/2Krts55Z', '_blank');
+    });
+    document.getElementById('youtubeBtn').addEventListener('click', () => {
+        window.open('https://www.youtube.com/c/ZeroGamerYT', '_blank');
+    });
+
+    // المودال - فتح وإغلاق
+    function openModal(id) {
+        document.getElementById(id).classList.add('active');
+    }
+    function closeModal(id) {
+        document.getElementById(id).classList.remove('active');
+    }
+
+    // إغلاق مودال القوانين
+    document.getElementById('closeRulesBtn').addEventListener('click', () => {
+        closeModal('rules-modal');
+    });
+
+    // إغلاق مودال المشاركة
+    document.getElementById('closeShareBtn').addEventListener('click', () => {
+        closeModal('share-modal');
+    });
+
+    // عرض مودال القوانين عند الضغط على زر الاشتراك (مثلاً)
+    // أو يمكنك ربطه مع حدث معين حسب الحاجة
+    // هنا مثال لفتح مودال القوانين عند الضغط على الاشتراك
+    /*
+    document.querySelector('[data-action="subscribe"]').addEventListener('click', () => {
+        openModal('rules-modal');
+    });
+    */
+
+    // إنشاء فقاعات النجوم (عدد 26)
+    function createBubbles() {
+        const container = document.getElementById('bubbles-container');
+        const bubbleCount = 26;  // تم تعديل العدد هنا
+
+        for (let i = 0; i < bubbleCount; i++) {
+            const bubble = document.createElement('div');
+            bubble.classList.add('bubble');
+            bubble.style.left = Math.random() * 100 + 'vw';
+            bubble.style.animationDuration = (8 + Math.random() * 5) + 's';
+            bubble.style.fontSize = (12 + Math.random() * 14) + 'px';
+            bubble.style.opacity = 0.7 + Math.random() * 0.3;
+            bubble.textContent = '★';
+            bubble.style.animationDelay = (Math.random() * 10) + 's';
+            container.appendChild(bubble);
         }
-    </script>
+    }
+    createBubbles();
+
+    // مشاركة عبر واتساب
+    document.getElementById('shareWhatsapp').addEventListener('click', () => {
+        const url = encodeURIComponent('https://www.youtube.com/c/ZeroGamerYT');
+        window.open(`https://api.whatsapp.com/send?text=شاهد قناة ZERO GAMER الرائعة! ${url}`, '_blank');
+    });
+
+    // مشاركة عبر تيليجرام
+    document.getElementById('shareTelegram').addEventListener('click', () => {
+        const url = encodeURIComponent('https://www.youtube.com/c/ZeroGamerYT');
+        window.open(`https://t.me/share/url?url=${url}&text=شاهد قناة ZERO GAMER الرائعة!`, '_blank');
+    });
+
+    // مشاركة عبر فيسبوك
+    document.getElementById('shareFacebook').addEventListener('click', () => {
+        const url = encodeURIComponent('https://www.youtube.com/c/ZeroGamerYT');
+        window.open(`https://www.facebook.com/sharer/sharer.php?u=${url}`, '_blank');
+    });
+</script>
+
 </body>
 </html>
