@@ -1,0 +1,264 @@
+﻿<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ZERO GAMER</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Cairo', sans-serif;
+        }
+
+        body, html {
+            height: 100%;
+            overflow: hidden;
+            direction: rtl;
+        }
+
+        .loading-screen {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background-color: black;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            z-index: 9999;
+            color: white;
+            font-size: 2em;
+            animation: fadeOut 1s ease 6s forwards;
+        }
+
+        .loading-logo {
+            opacity: 0;
+            transition: opacity 1s;
+        }
+
+        .loading-logo.show {
+            opacity: 1;
+        }
+
+        .main-page {
+            display: none;
+            background: linear-gradient(to bottom, #000, #444);
+            height: 100vh;
+            color: gold;
+            text-align: center;
+            padding-top: 80px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        h1 {
+            font-size: 50px;
+            font-family: 'Cairo', sans-serif;
+            text-shadow: 0 0 10px gold, 0 0 20px orange;
+        }
+
+        .boxes {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            margin-top: 60px;
+        }
+
+        .box {
+            width: 200px;
+            height: 200px;
+            background-color: #111;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            border: 2px solid gold;
+            border-radius: 20px;
+            transition: 0.4s;
+            cursor: pointer;
+        }
+
+        .box:hover {
+            transform: scale(1.1) rotate(2deg);
+            box-shadow: 0 0 20px gold;
+        }
+
+        .discord-link {
+            margin-top: 30px;
+            display: inline-block;
+            padding: 12px 25px;
+            background-color: #222;
+            color: gold;
+            border: 2px solid gold;
+            border-radius: 12px;
+            font-size: 18px;
+            text-decoration: none;
+            transition: 0.4s;
+        }
+
+        .discord-link:hover {
+            background-color: gold;
+            color: #000;
+            box-shadow: 0 0 10px gold;
+        }
+
+        .rules-modal {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: #222;
+            padding: 30px;
+            border: 2px solid gold;
+            border-radius: 20px;
+            width: 400px;
+            max-height: 80vh;
+            overflow-y: auto;
+            z-index: 10000;
+            display: none;
+        }
+
+        .rules-modal h2 {
+            margin-bottom: 20px;
+            color: gold;
+        }
+
+        .rules-modal ul {
+            list-style: none;
+            padding: 0;
+            color: white;
+            font-size: 16px;
+            text-align: right;
+        }
+
+        .rules-modal ul li {
+            margin-bottom: 10px;
+        }
+
+        .close-btn {
+            background: crimson;
+            color: white;
+            border: none;
+            padding: 5px 15px;
+            border-radius: 10px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        @keyframes fadeOut {
+            to {
+                opacity: 0;
+                visibility: hidden;
+            }
+        }
+
+        .bubble {
+            position: absolute;
+            bottom: -50px;
+            width: 20px;
+            height: 20px;
+            background: red;
+            border-radius: 50%;
+            opacity: 0.6;
+            animation: floatUp 8s linear infinite;
+        }
+
+        @keyframes floatUp {
+            0% {
+                transform: translateY(0) scale(1);
+                opacity: 0.6;
+            }
+            100% {
+                transform: translateY(-120vh) scale(0.5);
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="loading-screen" id="loading">
+        <div class="loading-logo" id="logo-discord">🔵 Discord</div>
+        <div class="loading-logo" id="logo-youtube">🔴 YouTube</div>
+    </div>
+
+    <div class="main-page" id="main">
+        <h1>ZERO GAMER</h1>
+        <div class="boxes">
+            <div class="box" onclick="showRules()">الديسكورد</div>
+            <div class="box" onclick="goToYoutube()">اليوتيوب</div>
+        </div>
+        <a href="https://discord.gg/2Krts55Z" target="_blank" class="discord-link">دخول إلى السيرفر</a>
+
+        <script>
+            for (let i = 0; i < 20; i++) {
+                const bubble = document.createElement('div');
+                bubble.classList.add('bubble');
+                bubble.style.left = Math.random() * 100 + 'vw';
+                bubble.style.animationDelay = Math.random() * 8 + 's';
+                bubble.style.width = bubble.style.height = (Math.random() * 20 + 10) + 'px';
+                document.getElementById('main').appendChild(bubble);
+            }
+        </script>
+    </div>
+
+    <div class="rules-modal" id="rulesModal">
+        <h2>قوانين الديسكورد</h2>
+        <ul>
+            <li>1. احترام الجميع.</li>
+            <li>2. ممنوع السب.</li>
+            <li>3. لا ترسل سبام.</li>
+            <li>4. لا تنشر روابط خبيثة.</li>
+            <li>5. لا تستفز أحد.</li>
+            <li>6. اتبع أوامر الإدارة.</li>
+            <li>7. لا تسوّق دون إذن.</li>
+            <li>8. تحدث بلغة مفهومة.</li>
+            <li>9. ممنوع النقاش الديني.</li>
+            <li>10. لا تزعج الأعضاء.</li>
+            <li>11. احترم الخصوصية.</li>
+            <li>12. لا تنتحل شخصية.</li>
+            <li>13. لا تشارك معلومات حساسة.</li>
+            <li>14. لا تستخدم بوتات بدون إذن.</li>
+            <li>15. لا ترسل محتوى غير لائق.</li>
+            <li>16. لا تفتح التذاكر دون سبب.</li>
+            <li>17. لا تدخل الفويس بدون إذن.</li>
+            <li>18. كل مخالفة لها عقوبة.</li>
+            <li>19. لا تطلب رتبة.</li>
+            <li>20. تذكر أن الإدارة لها القرار الأخير.</li>
+        </ul>
+        <button class="close-btn" onclick="closeRules()">إغلاق</button>
+    </div>
+
+    <script>
+        setTimeout(() => {
+            document.getElementById('logo-discord').classList.add('show');
+        }, 0);
+
+        setTimeout(() => {
+            document.getElementById('logo-discord').classList.remove('show');
+            document.getElementById('logo-youtube').classList.add('show');
+        }, 3000);
+
+        setTimeout(() => {
+            document.getElementById('loading').style.display = 'none';
+            document.getElementById('main').style.display = 'block';
+        }, 6000);
+
+        function showRules() {
+            document.getElementById('rulesModal').style.display = 'block';
+        }
+
+        function closeRules() {
+            document.getElementById('rulesModal').style.display = 'none';
+        }
+
+        function goToYoutube() {
+            window.open("https://youtu.be/CAgFYX3XLBg?si=4ucOwOEfA08snff4", "_blank");
+        }
+    </script>
+</body>
+</html>
